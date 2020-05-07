@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'web',//守门员的名称
         'passwords' => 'users',
     ],
 
@@ -34,11 +34,16 @@ return [
     | Supported: "session", "token"
     |
     */
-
+    //guard 规则
     'guards' => [
         'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+            'driver' => 'session',//验证通过之后往session中写
+            'provider' => 'users',//由谁提供
+        ],
+        //定义后端的guard
+        'admin'=>[
+            'driver'=>'session',
+            'provider'=>'admin',
         ],
 
         'api' => [
@@ -66,9 +71,14 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
+            'driver' => 'eloquent',//模型
+            'model' => App\User::class,//
         ],
+        //定义admin的 provider
+        'admin'=>[
+            'driver'=>'eloquent',
+            'model'=>App\Models\Member::class
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

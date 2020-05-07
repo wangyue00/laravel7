@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PublicController extends Controller
 {
@@ -23,6 +24,12 @@ class PublicController extends Controller
         ]);
         //用户认证机制
         //auth   guard 可以进行快速身份认证
+        $data = $request->only(['username','password']);
+        $data['status']='2';//要求状态为启用的用户
+        $result = Auth::guard('admin')->attempt($data,$request->get('online'));
+
+        dd($result);
+
     }
 
     //
