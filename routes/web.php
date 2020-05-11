@@ -17,10 +17,10 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function () {
     //后台登录处理
     Route::post('public/check', 'PublicController@check')->name('admin.public.check');
     //后台退出
-    Route::post('public/logout', 'PublicController@logout');
+    Route::get('public/logout', 'PublicController@logout')->name('admin.public.logout');
 });
 
-Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'auth'],function () {
+Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'admin'],function () {
     //后台首页
     Route::get('index/index', 'IndexController@index')->name('admin.index.index');
     //后台框架页面

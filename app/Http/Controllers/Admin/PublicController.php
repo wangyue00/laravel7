@@ -10,24 +10,7 @@ class PublicController extends Controller
 {
     //
     public function login(){
-        $a='adad';
-        $b='adadad';
-        /*$a=substr_count($b,$a);*/
-        $a1=[];
-
-        //将规则字符串分割并转为数组
-        for($i=0;$i<strlen($a);$i++){
-            $a1[]=$a[$i];
-        }
-        //判断规则字符串是否有重复的内容
-        $res=array_unique($a1);
-        //将规则数组转成字符串
-        $preg = implode($res);
-        //判断在匹配字符串中是否存在规则字符串
-
-
-
-      /*return view('admin.public.login');*/
+      return view('admin.public.login');
     }
 
     //验证数据
