@@ -17,8 +17,9 @@ class CreareRoleTable extends Migration
         Schema::create('role', function (Blueprint $table) {
             //设计字段
             $table->increments('id');//主键字段
-            $table->text('auth_ids');//权限id集合
-            $table->string('auth_ac');//权限控制器和方法组合字符串
+            $table->string('role_name',50);
+            $table->text('auth_ids')->nullable();//权限id集合
+            $table->string('auth_ac')->nullable();//权限控制器和方法组合字符串
         });
     }
     /**

@@ -34,24 +34,32 @@
     <table class="table table-border table-bordered table-bg">
         <thead>
         <tr>
-            <th scope="col" colspan="7">权限节点</th>
+            <th scope="col" colspan="8">权限节点</th>
         </tr>
         <tr class="text-c">
             <th width="25"><input type="checkbox" name="" value=""></th>
             <th width="40">ID</th>
             <th width="200">权限名称</th>
-            <th>字段名</th>
+            <th>控制器名称</th>
+            <th>方法名称</th>
+            <th>父级权限</th>
+            <th>作为导航</th>
             <th width="100">操作</th>
         </tr>
         </thead>
         <tbody>
+        @foreach ($data as $val)
         <tr class="text-c">
             <td><input type="checkbox" value="1" name=""></td>
-            <td>1</td>
-            <td>栏目添加</td>
-            <td></td>
+            <td>{{$val->id}}</td>
+            <td>{{$val->auth_name}}</td>
+            <td>{{$val->controller ? $val->controller : 'N/A'}}</td>
+            <td>{{$val->action ? $val->action : 'N/A'}}</td>
+            <td>{{$val->parent_name ? $val->parent_name : '顶级权限'}}</td>
+            <td>{{$val->is_nav==1?'是':'否'}}</td>
             <td><a title="编辑" href="javascript:;" onclick="admin_permission_edit('角色编辑','admin-permission-add.html','1','','310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_permission_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
         </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
@@ -64,6 +72,21 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
+
+
+    $(function () {
+        //实例化dataTables插件
+        $('table').dataTable({
+            "aaSorting": [[ 1, "desc" ]],//默认第几个排序
+            "bStateSave": true,//状态保存
+            "pading":false,
+            "aoColumnDefs": [
+                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                {"orderable":false,"aTargets":[0]}// 不参与排序的列
+            ]
+        });
+    })
+
     /*
         参数解释：
         title	标题

@@ -14,4 +14,9 @@ class Manager extends Model implements Authenticatable
 
      //引入trait
     use \Illuminate\Auth\Authenticatable ;
+    //关联模型
+    public function role(){
+        return $this->hasOne('App\Admin\Role','id','role_id');
+    }
+
 }

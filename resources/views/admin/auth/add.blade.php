@@ -30,7 +30,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="authName" name="authName">
+                <input type="text" class="input-text" value="" placeholder="" id="auth_name" name="auth_name">
             </div>
         </div>
 
@@ -62,9 +62,11 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>父级权限：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="pid" size="1">
-				<option value="0">顶级权限</option>
-
+            <select class="select" name="pid" size="1">
+                <option value="0">顶级权限</option>
+            @foreach($parents as $v)
+                <option value="{{$v->id}}">{{$v->auth_name}}</option>
+            @endforeach
 			</select>
 			</span> </div>
         </div>
@@ -90,6 +92,22 @@
 <script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
     $(function(){
+        // jquery控制 控制器和方法名表单项的动态显示和动态隐藏
+        $('#controller,#action').parents('.row').hide(500);
+        //给下拉列表添加切换事件
+        $('select').change(function (data) {
+            var val = $(this).val();
+            if(val>0){
+                //显示
+                $('#controller,#action').parents('.row').show(500);
+            }else{
+
+                //重置表单项的值
+                $('#container,#action').val('');
+                //隐藏
+                $('#controller,#action').parents('.row').hide(500);
+            }
+        })
         $('.skin-minimal input').iCheck({
             checkboxClass: 'icheckbox-blue',
             radioClass: 'iradio-blue',
@@ -98,7 +116,7 @@
 
         $("#form-admin-add").validate({
             rules:{
-                authName:{
+                auth_name:{
                     required:true,
                     minlength:4,
                     maxlength:16
@@ -118,18 +136,18 @@
                     type: 'post',
                     url: "" ,//自己提交给自己 可以不写
                     success: function(data){
-                        layer.msg('添加成功!',{icon:1,time:1000},function(){
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.$('.btn-refresh').click();
-                            parent.layer.close(index);
-                        });
+                        if(data=='1'){
+                            layer.msg('添加成功!',{icon:1,time:2000},function(){
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.$('.btn-refresh').click();
+                                parent.layer.close(index);
+                            });
+                        }else{
+                            layer.msg('添加失败!',{icon:2,time:2000});
+                        }
                     },
                     error: function(XmlHttpRequest, textis_nav, errorThrown){
-                        layer.msg('error!',{icon:1,time:1000},function(){
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.$('.btn-refresh').click();
-                            parent.layer.close(index);
-                        });
+                        layer.msg('error!',{icon:2,time:2000});
                     }
                 });
 

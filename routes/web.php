@@ -35,5 +35,13 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'admin'],func
     //后台添加权限页面
     Route::any('auth/add', 'AuthController@add')->name('admin.auth.add');
 
+    //后台角色管理页面
+    Route::get('role/index', 'RoleController@index')->name('admin.role.index');
+    //后台添加角色管理页面
+    Route::any('role/add', 'RoleController@add')->name('admin.role.add');
+    //后台角色权限分配
+    Route::any('role/assign', 'RoleController@assign')->name('admin.role.assign');
+
+
 
 });
