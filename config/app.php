@@ -232,7 +232,18 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         //验证码
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        //页面请求可能使用
+        'Input' => Illuminate\Support\Facades\Input::class,
 
     ],
 
 ];
+
+
+
+
+
+
+
+
+

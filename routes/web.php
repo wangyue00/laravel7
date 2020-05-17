@@ -26,8 +26,14 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'admin'],func
     //后台框架页面
     Route::get('index/welcome', 'IndexController@welcome')->name('admin.index.welcome');
 
+
+
     //管理员的管理首页
     Route::get('manager/index','ManagerController@index')->name('admin.manager.index');
+    //后台权限页面
+    Route::get('auth/index', 'AuthController@index')->name('admin.auth.index');
+    //后台添加权限页面
+    Route::any('auth/add', 'AuthController@add')->name('admin.auth.add');
 
 
 });
