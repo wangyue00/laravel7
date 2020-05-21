@@ -5,27 +5,35 @@ namespace App\Http\Controllers\Admin;
 use App\Admin\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 
 class AuthController extends Controller
 {
     //管理员列表
-    public function index(){
-        //查询数据
+    public function index()
+    {
+        // 判断redis缓存中是否有数据如果有则直接获取没有则查询数据
         //Select t1.*,t2.auth_name as parent_name from auth as t1 left join auth as t2 on t1.pid = t2.id
-        $data = Auth::from('auth as t1')
-            ->leftjoin('auth as t2','t1.pid','t2.id')
+        if(!Redis::exists('auth')){
+            $data = Auth::from('auth as t1')
+            ->leftJoin('auth as t2','t1.pid','t2.id')
             ->select('t1.*','t2.auth_name as parent_name')
             ->get();
+              //dd($data);
+            //将数据序列化同时存储到redis中
+            Redis::setex('auth',10,serialize($data));
+        }
+        //因为redis无法存储数组和对象，所以需要序列化和反序列化 也可以使用json_encode和json_decode
 
-
-        return view('admin.auth.index',compact('data'));
+        $res=unserialize(Redis::get('auth'));
+        return view('admin.auth.index',compact('res'));
     }
 
     //管理员的添加
-    public function add(Request $request){
-        //展示页面
-
+    public function add(Request $request)
+    {
         //添加功能的实现
         if($request->isMethod('post')){
            //dd($request->all());
@@ -48,10 +56,10 @@ class AuthController extends Controller
             //返回结果
             return $result ?'1':0 ;
         }
-            //查询父级权限
-
-            $parents = Auth::where(['pid'=>0])->get();
-            return view('admin.auth.add',compact('parents'));
+        //查询父级权限
+        $parents = Auth::where(['pid'=>0])->get();
+        //展示页面
+        return view('admin.auth.add',compact('parents'));
 
     }
 

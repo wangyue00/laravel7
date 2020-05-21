@@ -48,7 +48,8 @@
         </tr>
         </thead>
         <tbody>
-        @foreach ($data as $val)
+        @foreach ($res as $val)
+
         <tr class="text-c">
             <td><input type="checkbox" value="1" name=""></td>
             <td>{{$val->id}}</td>
@@ -77,7 +78,7 @@
     $(function () {
         //实例化dataTables插件
         $('table').dataTable({
-            "aaSorting": [[ 1, "desc" ]],//默认第几个排序
+            "aaSorting": [[ 1, "asc" ]],//默认第几个排序
             "bStateSave": true,//状态保存
             "pading":false,
             "aoColumnDefs": [
